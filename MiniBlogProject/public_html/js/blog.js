@@ -4,8 +4,10 @@ $(function(){
         VERSION = "v1";
     
   Backendless.initApp(APPLICATION_ID, SECRET_KEY, VERSION);
-  user.email = "halofreek45@gmail.com";
+  
+    var user = new Backendless.User();
+    user.email = "halofreek45@gmail.com";
   user.password = "JUSTDOIT";
-  Backendless.userService.register(user);
+  Backendless.UserService.register(user);
 });
 
