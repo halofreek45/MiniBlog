@@ -16,11 +16,11 @@ $(function(){
       
       var data = $(this).serializeArray(),
       email = data[0].value,
-      passsword = data[1].value;
+      password = data[1].value;
       Backendless.UserService.login(email, password, true, new Backendless.Async(userLoggedIn, gotError));
       
   });
-});
+  });
 
 function Posts(args){
     args = args || {};
