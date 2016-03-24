@@ -29,8 +29,14 @@ function Posts(args){
     this.authorEmail = args.authorEmail || "";
 }
 
-function userLoggedIn(){
+function userLoggedIn(user){
     console.log("user Logged in!");
+    
+    var welcomeScript = $('#welcome-template').html();
+    var welcomeTemplate = Handlebars.compile(welcomeScript);
+    var welcomeHTML = welcomeTemplate(user);
+    
+    $('.main-container').html(welcomeHTML);
 }
 
 function gotError(error){
