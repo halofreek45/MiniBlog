@@ -5,9 +5,19 @@ $(function(){
     
   Backendless.initApp(APPLICATION_ID, SECRET_KEY, VERSION);
   
-  var dataStore = Backendless.Persistence.of(Posts);
-  var post = new Posts({title: "My First Blog Post", content:"My first Blog content", authorEmail:"email@email.com" });
-  dataStore.save(post);
+  var postsCollection = Backendless.Persistence.of(Posts).find();
+  
+  console.log(postsCollection);
+  
+  var wrapper = {
+      posts: postsCollection.data
+  };
+  
+  var blogScript = $("#blogs-template").html();
+  var blogTemplate = Handlebars.compile(blogScript);
+  var blogHTML = blogTemplate(wrapper);
+  
+  $('.main-container').html(blogHTML);
 });
 
 function Posts(args){
