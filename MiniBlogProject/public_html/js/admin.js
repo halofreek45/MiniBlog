@@ -17,7 +17,7 @@ $(function(){
       var data = $(this).serializeArray(),
       email = data[0].value,
       passsword = data[1].value;
-      Backendless.UserService.login(email, password, true, true);
+      Backendless.UserService.login(email, password, true, new Backendless.Async(userLoggedIn, gotError));
       
   });
 });
@@ -29,3 +29,11 @@ function Posts(args){
     this.authorEmail = args.authorEmail || "";
 }
 
+function userLoggedIn(){
+    console.log("user Logged in!");
+}
+
+function gotError(error){
+    console.log("Error message -" + error.message);
+    console.log("Error Code - " + error.code);
+}
