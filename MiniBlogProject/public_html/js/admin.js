@@ -70,7 +70,7 @@ function Posts(args){
     this.content = args.content || "";
     this.authorEmail = args.authorEmail || "";
 }
-Materialize.toast('Thank you for logging in!', 2000)
+Materialize.toast('Thank you for logging in!', 2000);
 function userLoggedIn(user){
     console.log("user Logged in!");
     var userData;
