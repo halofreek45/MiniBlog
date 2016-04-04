@@ -4,8 +4,13 @@ $(function(){
         VERSION = "v1";
     
   Backendless.initApp(APPLICATION_ID, SECRET_KEY, VERSION);
+  //Backendless.UserService.logout(new Backendless.Async(LoggedOut, gotError));
+  
   if(Backendless.UserService.isValidLogin()){
+            
       userLoggedIn(Backendless.LocalCache.get("current-user-id"));
+      //
+      
   } 
   else
   {
@@ -13,7 +18,6 @@ $(function(){
         var loginTemplate = Handlebars.compile(loginScript);
         $('.main-container').html(loginTemplate);
   }
- 
   
   $(document).on('submit', '.form-signin', function(event){
       event.preventDefault();
@@ -21,7 +25,7 @@ $(function(){
       var data = $(this).serializeArray(),
       email = data[0].value,
       password = data[1].value;
-      Backendless.UserService.login(email, password, true, new Backendless.Async(userLoggedIn, gotError));
+      Backendless.UserService.login(email, password, true, new Backendless.Async(userLoggedIn, gotError2));
       
   });
   
@@ -47,7 +51,7 @@ $(function(){
   var postObject = new Posts({
       title: title,
       content: content,
-      authorEmail: Backendless.UserServie.getCurrentUser().email
+      authorEmail: Backendless.UserService.getCurrentUser().email
   });
   dataStore.save(postObject);
   
@@ -68,13 +72,14 @@ function Posts(args){
     args = args || {};
     this.title = args.title || "";
     this.content = args.content || "";
+    this.content.name = "WHYME"; 
     this.authorEmail = args.authorEmail || "";
 }
-Materialize.toast('Thank you for logging in!', 2000);
-function userLoggedIn(user){
+
+function userLoggedIn(user, email){
     console.log("user Logged in!");
     var userData;
-    if(typeof user == "string"){
+    if(typeof user === "string"){
         userData = Backendless.Data.of(Backendless.User).findById(user);
         
     }
@@ -82,6 +87,7 @@ function userLoggedIn(user){
     {
         userData = user;
     }
+    Materialize.toast("Thank you for logging in as " + Backendless.UserService.getCurrentUser().email, 2000);
     var welcomeScript = $('#welcome-template').html();
     var welcomeTemplate = Handlebars.compile(welcomeScript);
     var welcomeHTML = welcomeTemplate(userData);
@@ -94,4 +100,9 @@ function LoggedOut(){
 function gotError(error){
     console.log("Error message -" + error.message);
     console.log("Error Code - " + error.code);
+}
+function gotError2(error){
+    console.log("Error message -" + error.message);
+    console.log("Error Code - " + error.code);
+Materialize.toast("Incorrect Username or Password");
 }

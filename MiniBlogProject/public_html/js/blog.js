@@ -30,5 +30,7 @@ function Posts(args){
     args = args || {};
     this.title = args.title || "";
     this.content = args.content || "";
+    //content.name = this.title;
+    //console.log(content.name);
     this.authorEmail = args.authorEmail || "";
 }
